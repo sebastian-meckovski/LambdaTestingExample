@@ -55,7 +55,9 @@ jobs:
 
     - name: Build and publish Lambda
       run: |
-        dotnet publish ${{ matrix.lambda.project }} -c Release -o ./publish
+        dotnet publish ${{ matrix.lambda.project }} -c Release -o ./publish \
+          -r linux-x64 --self-contained false -p:PublishReadyToRun=false
+    
 
     - name: Zip Lambda package
       run: |
