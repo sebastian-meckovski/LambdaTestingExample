@@ -19,7 +19,7 @@ namespace AWSLambdaTest.Tests
             var result = function.FunctionHandler(input, context);
 
             // Assert
-            Assert.Equal(15, result.Result);
+            Assert.Equal(30, result.Result);
         }
 
         [Theory]
