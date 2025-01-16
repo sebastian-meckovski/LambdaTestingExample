@@ -31,7 +31,7 @@ namespace AWSLambdaTest
         {
             return new Output
             {
-                Result = input.Number * 6
+                Result = input.Number * 5
             };
         }
     }
