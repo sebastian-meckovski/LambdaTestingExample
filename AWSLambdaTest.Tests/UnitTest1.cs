@@ -8,8 +8,8 @@ namespace AWSLambdaTest.Tests
         public void TestFunctionHandler_MultiplyByThree()
         {
             // Arrange
-            var function = new MultiplyNumbersFunction();
-            var input = new MultiplyNumbersFunction.Input
+            var function = new Function();
+            var input = new Function.Input
             {
                 Number = 5
             };
@@ -30,8 +30,8 @@ namespace AWSLambdaTest.Tests
         public void TestFunctionHandler_MultipleCases(int inputNumber, int expectedResult)
         {
             // Arrange
-            var function = new MultiplyNumbersFunction();
-            var input = new MultiplyNumbersFunction.Input
+            var function = new Function();
+            var input = new Function.Input
             {
                 Number = inputNumber
             };

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AWSLambdaTest
 {
-    public class MultiplyNumbersFunction
+    public class Function
     {
         public class Input
         {
