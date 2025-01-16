@@ -26,4 +26,53 @@ jobs:
 
     - name: Run tests
       run: dotnet test AWSLambdaTest.Tests/AWSLambdaTest.Tests.csproj --configuration Release --verbosity minimal
-    
+
+  publish-lambdas:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        lambda:
+          - project: "AWSLambdaTest/AWSLambdaTest.csproj"
+            function_name: "AWSLambdaTestFunction"
+          - project: "ReturnMessage/ReturnMessage.csproj"
+            function_name: "ReturnMessageFunction"
+          - project: "PresentNiceMessage/PresentNiceMessage.csproj"
+            function_name: "PresentNiceMessageFunction"
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0'
+
+    - name: Restore dependencies
+      run: dotnet restore AWSLambdaTest.sln
+
+    - name: Build and publish Lambda
+      run: |
+        dotnet publish ${{ matrix.lambda.project }} -c Release -o ./publish
+
+    - name: Zip Lambda package
+      run: |
+        cd ./publish
+        zip -r ../lambda.zip .
+        cd ..
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Deploy to AWS Lambda
+      run: |
+        aws lambda update-function-code \
+          --function-name ${{ matrix.lambda.function_name }} \
+          --zip-file fileb://lambda.zip
