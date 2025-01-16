@@ -19,14 +19,14 @@ namespace AWSLambdaTest.Tests
             var result = function.FunctionHandler(input, context);
 
             // Assert
-            Assert.Equal(25, result.Result);
+            Assert.Equal(50, result.Result);
         }
 
         [Theory]
-        [InlineData(1, 5)]
+        [InlineData(1, 10)]
         [InlineData(0, 0)]
-        [InlineData(-4, -20)]
-        [InlineData(-5, -25)]
+        [InlineData(-4, -40)]
+        [InlineData(-5, -50)]
         public void TestFunctionHandler_MultipleCases(int inputNumber, int expectedResult)
         {
             // Arrange
