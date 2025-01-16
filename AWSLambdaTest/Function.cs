@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AWSLambdaTest
 {
-    public class MultiplyNumbersFunction
+    public class Function
     {
         public class Input
         {
@@ -31,7 +31,7 @@ namespace AWSLambdaTest
         {
             return new Output
             {
-                Result = input.Number * 3
+                Result = input.Number * 10
             };
         }
     }
