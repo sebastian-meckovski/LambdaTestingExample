@@ -34,7 +34,6 @@ jobs:
     strategy:
       matrix:
         lambda:
-          # Ensure all entries are correct Lambda function ARNs
           - project: "AWSLambdaTest/AWSLambdaTest.csproj"
             function_name: "arn:aws:lambda:us-east-2:591897865283:function:MultiplyNumberFun"
           - project: "ReturnMessage/ReturnMessage.csproj"
@@ -78,6 +77,11 @@ jobs:
         aws lambda update-function-code \
           --function-name ${{ matrix.lambda.function_name }} \
           --zip-file fileb://lambda.zip
+
+    - name: Wait for Lambda Update to Complete
+      run: |
+        aws lambda wait function-updated \
+          --function-name ${{ matrix.lambda.function_name }}
 
     - name: Publish Lambda Version
       run: |
