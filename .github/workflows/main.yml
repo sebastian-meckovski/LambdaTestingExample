@@ -78,3 +78,10 @@ jobs:
         aws lambda update-function-code \
           --function-name ${{ matrix.lambda.function_name }} \
           --zip-file fileb://lambda.zip
+
+    - name: Publish Lambda Version
+      run: |
+        VERSION_DESCRIPTION=$(git rev-parse --short HEAD)
+        aws lambda publish-version \
+          --function-name ${{ matrix.lambda.function_name }} \
+          --description "Version from Git Commit: $VERSION_DESCRIPTION"
